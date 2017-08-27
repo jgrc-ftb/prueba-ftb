@@ -1,7 +1,8 @@
 {
-    "name": "aaron/ftb",
+    "name": "jgrc-ftb",
     "license": "proprietary",
     "type": "project",
+    "version": "0.0.1",
     "autoload": {
         "psr-4": {
             "AppBundle\\": "src/AppBundle",
