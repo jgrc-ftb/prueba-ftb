@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>ADMIN</h2>
+    {% include 'flash.html.twig' %}
+    <h3>LANGUAGES</h3>
+    <div>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Locale</th>
+                    <th>Name</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for language in languages %}
+                <tr>
+                    <td>{{ language.id }}</td>
+                    <td>{{ language.name }}</td>
+                    <td>
+                        <a href="{{ url('remove_language', { language : language.id }) }}">Remove</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">No languages</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url('create_language') }}">Create language</a>
+    </div>
+    <h3>CLUBS</h3>
+    <div>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Manager</th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th colspan="4">Translations</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for club in clubs %}
+                <tr>
+                    <td>{{ club.id }}</td>
+                    <td>{{ club.name }}</td>
+                    <td>{{ club.manager }}</td>
+                    <td>
+                        <a href="{{ url('remove_club', { club : club.id }) }}">Remove</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <dl>
+                        {% for clubTranslation in club.clubTranslations %}
+                            <dt>{{ clubTranslation.language.id }}</dt>
+                            <dd>{{ clubTranslation.description }}</dd>
+                            <dd><a href="{{ url('remove_club_translation', { club : club.id, language : clubTranslation.language.id }) }}">Remove</a></dd>
+                        {% else %}
+                            <dd>No translations</dd>
+                        {% endfor %}
+                        </dl>
+                        <a href="{{ url('create_club_translation', { club : club.id }) }}">Create translation</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">No clubs</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url('create_club') }}">Create club</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,14 @@
+parameters:
+    database_host: 127.0.0.1
+    database_port: 3306
+    database_name: ftb
+    database_user: root
+    database_password: ~
+
+    database_host_slave: 127.0.0.1
+    database_port_slave: 3306
+    database_name_slave: ftb
+    database_user_slave: esclavo
+    database_password_slave: ~
+
+    secret: ThisTokenIsNotSoSecretChangeIt

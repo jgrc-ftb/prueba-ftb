@@ -1,0 +1,21 @@
+{% if app.session.flashBag.has('error') %}
+    <h3>Error</h3>
+    <div>
+        <ul>
+            {% for message in app.flashes('error') %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+{% if app.session.flashBag.has('success') %}
+    <h3>Success</h3>
+    <div>
+        <ul>
+            {% for message in app.flashes('success') %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+

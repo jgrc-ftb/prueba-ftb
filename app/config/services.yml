@@ -1,0 +1,97 @@
+# Learn more about services, parameters and containers at
+# https://symfony.com/doc/current/service_container.html
+parameters:
+    #parameter_name: value
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: false
+        autoconfigure: true
+        public: false
+
+    repository.club:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments: [ Domain\Model\Club ]
+
+    repository.language:
+        class: Doctrine\Common\Persistence\ObjectRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments: [ Domain\Model\Language ]
+
+    domain.service.get_language:
+        class: Domain\Service\GetLanguageByLocaleService
+        arguments:
+            - '@repository.language'
+
+    application.clubs.get_by_locale:
+        public: true
+        class: Application\Club\GetClubsByLocale
+        arguments:
+            - '@repository.language'
+            - '@repository.club'
+
+    application.clubs.get_by_search:
+        public: true
+        class: Application\Club\GetClubsBySearch
+        arguments:
+            - '@repository.language'
+            - '@repository.club'
+
+    application.languages.get:
+        public: true
+        class: Application\Language\GetLanguages
+        arguments:
+        - '@repository.language'
+
+    application.language.create:
+            public: true
+            class: Application\Language\CreateLanguage
+            arguments:
+                - '@repository.language'
+
+    application.language.remove:
+        public: true
+        class: Application\Language\RemoveLanguage
+        arguments:
+            - '@repository.language'
+
+    application.clubs.get:
+        public: true
+        class: Application\Club\GetClubs
+        arguments:
+            - '@repository.club'
+
+    application.club.create:
+            public: true
+            class: Application\Club\CreateClub
+            arguments:
+                - '@repository.club'
+
+    application.club.remove:
+        public: true
+        class: Application\Club\RemoveClub
+        arguments:
+            - '@repository.club'
+
+    application.club_translation.create:
+            public: true
+            class: Application\Club\CreateClubTranslation
+            arguments:
+                - '@repository.club'
+                - '@repository.language'
+
+    application.club_translation.remove:
+        public: true
+        class: Application\Club\RemoveClubTranslation
+        arguments:
+            - '@repository.club'
+            - '@repository.language'
+
+    infrastructure.user.locale:
+        public: true
+        class: AppBundle\Service\GetUserLocale
+        arguments:
+            - '@application.languages.get'
+            - '@request_stack'
